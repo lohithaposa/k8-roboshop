@@ -1,49 +1,101 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: mongodb
+#   namespace: roboshop
+#   labels:  #replicaset labels
+#     project: roboshop
+#     tier: database
+#     component: mongodb
+ 
+# spec:
+#   replicas: 1
+#   selector: #Selector it uses replica set labels ( using this labels replicaset selects the pod)
+#     matchLabels:
+#       project: roboshop
+#       tier: database
+#       component: mongodb
+# # This is pod
+#   template:
+#     metadata:
+#       labels:
+#         project: roboshop
+#         tier: database
+#         component: mongodb
+#       containers:
+#         - name: mongodb
+#           image: dock944/mongodb:1.0.0
+# ---
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: mongodb 
+#   namespace: roboshop         # Name of the Service  
+# spec:
+#   selector:  #labels are used as selectors
+#     project: roboshop
+#     tier: database
+#     component: mongodb                # Matches Pods with these labels
+    
+#   ports:
+#     - name: http
+#       protocol: TCP           # Protocol (TCP/UDP/SCTP)
+#       port: 27017               # Port exposed by the Service
+#       targetPort: 27017      #container
+
+
+
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongodb
   namespace: roboshop
-  labels:  #replicaset labels
+  labels:
     project: roboshop
     tier: database
     component: mongodb
- 
+
 spec:
   replicas: 1
-  selector: #Selector it uses replica set labels ( using this labels replicaset selects the pod)
+
+  selector:
     matchLabels:
       project: roboshop
       tier: database
       component: mongodb
-# This is pod
+
   template:
     metadata:
       labels:
         project: roboshop
         tier: database
         component: mongodb
+
+    spec:
       containers:
         - name: mongodb
           image: dock944/mongodb:1.0.0
----
+          ports:
+            - containerPort: 27017
 
+---
 apiVersion: v1
 kind: Service
+
 metadata:
-  name: mongodb 
-  namespace: roboshop         # Name of the Service  
+  name: mongodb
+  namespace: roboshop
+
 spec:
-  selector:  #labels are used as selectors
+  selector:
     project: roboshop
     tier: database
-    component: mongodb                # Matches Pods with these labels
-    
+    component: mongodb
+
   ports:
-    - name: http
-      protocol: TCP           # Protocol (TCP/UDP/SCTP)
-      port: 27017               # Port exposed by the Service
-      targetPort: 27017      #container
-
-
-
-
+    - name: mongodb
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
