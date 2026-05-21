@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongodb
+  namespace: roboshop
   labels:  #replicaset labels
     project: roboshop
     tier: database
@@ -29,7 +30,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb          # Name of the Service  
+  name: mongodb 
+  namespace: roboshop         # Name of the Service  
 spec:
   selector:  #labels are used as selectors
     project: roboshop

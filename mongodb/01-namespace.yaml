@@ -1,0 +1,17 @@
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: roboshop          # Change to your desired namespace name
+#   labels:
+#     project: roboshop
+#     environment: development   # Optional: label for grouping/filtering
+#     purpose: poc   
+
+apiVersion: v1 
+kind: Namespace
+metadata:
+  name: roboshop
+  labels:
+    env: development
+    project: roboshop
+    purpose: poc
