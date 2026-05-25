@@ -42,6 +42,28 @@ spec:
       containers:
         - name: catalogue
           image: dock944/catalogue:1.0.0
+          resources:
+            requests:
+              cpu : "100m"
+              memory: "128mi"
+            limits:
+              cpu : "100m"
+              memory: "128mi"
+                
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            failureThreshold: 2
+            periodSeconds: 10
+            initialDelaySeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            failureThreshold: 1
+            periodSeconds: 10
+  
+
           envFrom:
           - configMapRef:
               name: catalogue
